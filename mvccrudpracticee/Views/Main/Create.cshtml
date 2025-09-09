@@ -1,0 +1,225 @@
+﻿@model ClassLibrary1.ClassesFolder.USER
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Create User</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Address, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Phone, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+
+            @Html.LabelFor(model => model.gender, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <label>
+                    @Html.RadioButtonFor(model => model.gender, "Male") Male
+                </label>
+                <label>
+                    @Html.RadioButtonFor(model => model.gender, "Female") Female
+                </label>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label>Country :</label>
+            <div class="col-md-10">
+
+                @Html.DropDownListFor(model => model.countryid, ViewBag.country as IEnumerable<SelectListItem> ?? new List<SelectListItem>(), "Select Country", new { @class = "form-control", id = "countryDropdown" })
+
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>State :</label>
+            <div class="col-md-10">
+
+                @Html.DropDownListFor(model => model.stateid, ViewBag.StateName as IEnumerable<SelectListItem> ?? new List<SelectListItem>(), "Select State", new { @class = "form-control", id = "StateDropDown" })
+
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>City :</label>
+            <div class="col-md-10">
+
+                @Html.DropDownListFor(model => model.cityid, ViewBag.CityName as IEnumerable<SelectListItem> ?? new List<SelectListItem>(), "Select City", new { @class = "form-control", id = "CityDropDown" })
+
+
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Address)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Phone)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.city)
+            </th>
+
+            <th>Action</th>
+        </tr>
+
+        @foreach (var item in Model.users)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Address)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Phone)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.city)
+                </td>
+
+                <td>
+                    @Html.ActionLink("Edit", "Create", new { id = item.Id })
+                    @*<a href="#" onclick="UDetails(@item.Id)">Details</a>*@
+                    <span id="sp2">  <a id="a2" onclick="UserDetails11(@item.Id)" href="#">Details</a></span>
+                    @* @Html.ActionLink("Delete", "Delete", new { id = item.Id })*@
+                    @*@Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { onclick = "return confirmDelete();" })*@
+                    @*@Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { onclick = "return confirmDelete(this);" })*@
+                    <span id="sp3">  <a href="#" id="a3" onclick="DeleteUser(event, @item.Id)">Delete</a></span>
+
+                    <span id="sp2">  <a id="EditInModal" onclick="editUser(@item.Id)" href="#">Update</a></span>
+                </td>
+            </tr>
+        }
+
+    </table>
+
+
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+<!-- Add this inside <head> or before your script -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+
+$(document).ready(function () {
+
+    // Country change event
+    $("#countryDropdown").change(function () {
+        var countryId = $(this).val();
+        console.log("Selected Country: " + countryId);
+
+        $("#StateDropDown").empty();
+        $("#CityDropDown").empty();
+
+        if (countryId) {
+            $.getJSON('@Url.Action("showstate", "Main")',
+                { countryid: countryId },
+                function (states) {
+                    $("#StateDropDown").append('<option value="">Select State</option>');
+                    $.each(states, function (i, state) {
+                        $("#StateDropDown").append('<option value="' + state.Value + '">' + state.Text + '</option>');
+                    });
+                });
+        }
+    });
+
+    // State change event
+    $("#StateDropDown").change(function () {
+        var stateId = $(this).val();
+        console.log("Selected State: " + stateId);
+
+        $("#CityDropDown").empty();
+
+        if (stateId) {
+            $.getJSON('@Url.Action("showcity", "Main")',
+                { stateid: stateId },   // ✅ fixed param name
+                function (cities) {
+                    $("#CityDropDown").append('<option value="">Select City</option>');
+                    $.each(cities, function (i, city) {
+                        $("#CityDropDown").append('<option value="' + city.Value + '">' + city.Text + '</option>');
+                    });
+                });
+        }
+    });
+
+});
+
+
+</script>
